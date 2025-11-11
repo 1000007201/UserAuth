@@ -34,6 +34,17 @@ async function login_user(req, res) {
     }catch(error){
         res.status(404).json({status: "error", "reason": error.message});
     };
-}
+};
 
-export {registerUser, login_user};
+async function get_user_profile(req, res){
+    try{
+        const Useruuid = req.user_uuid;
+        const UserInfo = await User.findOne({uuid: Useruuid});
+        if (!UserInfo) throw new error("User not exist!!");
+        res.json({status: "success", "user_info": UserInfo});
+    }catch(error){
+        res.status(404).json({status: "error", reason: error.message});
+    };
+};
+
+export {registerUser, login_user, get_user_profile};
